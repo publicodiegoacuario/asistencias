@@ -45,10 +45,10 @@ public class RegistroAsistencias extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(38, 169, 255));
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -78,36 +78,17 @@ public class RegistroAsistencias extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 60, 0, 60);
         jPanel1.add(jTextField1, gridBagConstraints);
 
-        jButton1.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
-        jButton1.setText("Reporte diario");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        jPanel1.add(jButton1, gridBagConstraints);
-
         getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         setSize(new java.awt.Dimension(456, 410));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Funciones.Abrir_URL("http://diegoacuario.com/cel/2015-04-28.html");
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
         if (!Character.isDigit(evt.getKeyChar()) && !Character.isISOControl(evt.getKeyChar())) {
             Toolkit.getDefaultToolkit().beep();
             evt.consume();
         }
-
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
@@ -134,9 +115,9 @@ public class RegistroAsistencias extends javax.swing.JFrame {
                                 + "Estimad@ " + nomApe + "<br>su " + tipo + " fue registrada a las:<br><b><center>"
                                 + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 7000);
                     } else {
-                        Funciones.visualizaDialogo(this, "<html><font color='#0000FF' size=7>"
+                        Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
                                 + "Estimad@ " + nomApe + "<br>su " + tipo + " no fue registrada a las:<br><b><center>"
-                                + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 7000);
+                                + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 5000);
 
                     }
                 } else {
@@ -147,7 +128,7 @@ public class RegistroAsistencias extends javax.swing.JFrame {
             } else {
                 Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
                         + "Estimad@ verifique su número de cédula es incorrecto,<br>intento registrar a las:<br><b><center>"
-                        + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 3000);
+                        + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 5000);
             }
             jTextField1.setText("");
         }
@@ -155,7 +136,6 @@ public class RegistroAsistencias extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;

@@ -1,7 +1,9 @@
 
 /**
  *
- * @author Ing. Diego Romero Armijos
+ * @author Ing. Diego Romero
+ * @version 1.0
+ * @fecha 2015-05-01
  */
 public class FuncionesCedula {
 
@@ -15,17 +17,6 @@ public class FuncionesCedula {
         }
         cheksum = suma % 10 != 0 ? 10 - suma % 10 : 0;
         return cedula + cheksum;
-    }
-
-    public static boolean cedulaValidaEcuador(String cedula) {
-        try {
-            if (cedula.length() != 10 || !cedula.matches("[0-9]*")) {
-                return false;
-            }
-        } catch (NullPointerException e) {
-            return false;
-        }
-        return corrigeCedulaNumerica(cedula.substring(0, 9)).equals(cedula) && provinciaValida(Integer.parseInt(cedula.substring(0, 2))) && Integer.parseInt(cedula.substring(2, 3)) < 6;
     }
 
     public static boolean provinciaValida(int pro) {

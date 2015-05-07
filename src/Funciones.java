@@ -1,18 +1,12 @@
 
 import java.awt.Component;
-import java.awt.Desktop;
-import java.io.IOException;
 import static java.lang.Thread.sleep;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -23,31 +17,6 @@ import javax.swing.JOptionPane;
  * @fecha 2015-05-01
  */
 public class Funciones {
-
-    /**
-     * Abre enlace web en el navegador
-     *
-     * @param link Direccion url que abrirá en el navegador
-     */
-    public static void Abrir_URL(String link) {
-        URI uri;
-        try {
-            uri = new URI(link);
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                try {
-                    desktop.browse(uri);
-                } catch (IOException e) {
-                    System.err.println("Error: No se pudo abrir el enlace" + e.getMessage());
-                }
-            } else {
-                System.err.println("Error: Error de compatibilidad en la plataforma actual. No se puede abrir enlaces web.");
-            }
-        } catch (URISyntaxException e) {
-            System.out.println(e);
-        }
-
-    }
 
     public static void visualizaDialogo(Component padre, String texto, String titulo, final int timeout) {
         JOptionPane option = new JOptionPane("", JOptionPane.INFORMATION_MESSAGE);
@@ -70,15 +39,6 @@ public class Funciones {
         dialogo.setVisible(true);
         dialogo.dispose();
     }
-
-    public static String obtieneFechaHora(Connection c) {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-    }
-
-    public static String obtieneFecha(Connection c) {
-        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-    }
-
     public static String obtieneHora(Connection c) {
         String consulta = "SELECT NOW() AS fecha_hora";
         try {
@@ -93,7 +53,7 @@ public class Funciones {
                 c.close();
             } catch (SQLException ex1) {
             }
-            System.exit(0);            
+            System.exit(0);
         }
 
         return new SimpleDateFormat("HH:mm:ss").format(new Date());
