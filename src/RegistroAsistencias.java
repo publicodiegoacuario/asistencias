@@ -100,26 +100,48 @@ public class RegistroAsistencias extends javax.swing.JFrame {
             }
             System.exit(0);
         }
-
-        String tipo = "asistencia";
-
-        if (ced.length() == 9) {
-            String cedula = FuncionesCedula.corrigeCedulaNumerica(ced);
+        if (ced.length() == 9||ced.length() == 10) {
+            String cedula = FuncionesCedula.corrigeCedulaNumerica(ced.substring(0,9));
             if (cedula != null) {
                 String datos[] = Funciones.existeDocente(c, cedula).split(",");
                 if (datos.length > 1) {
                     String nomApe = datos[1];
                     Integer id_persona = Integer.parseInt(datos[0]);
-                    if (Funciones.registraAsistencia(c, id_persona)) {
-                        Funciones.visualizaDialogo(this, "<html><font color='#0000FF' size=7>"
-                                + "Estimad@ " + nomApe + "<br>su " + tipo + " fue registrada a las:<br><b><center>"
-                                + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 7000);
-                    } else {
-                        Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
-                                + "Estimad@ " + nomApe + "<br>su " + tipo + " no fue registrada a las:<br><b><center>"
-                                + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 5000);
-
+                    String tipoAsis = Funciones.tipoAsistencia(c, id_persona);
+                    boolean reg = false;
+                    boolean entSal = false;
+                    switch (tipoAsis) {
+                        case "entrada":
+                            reg = Funciones.registraAsistencia(c, id_persona, 0);
+                            entSal = true;
+                            break;
+                        case "salida":
+                            reg = Funciones.registraAsistencia(c, id_persona, 1);
+                            entSal = true;
+                            break;
+                        default:
+                            String horaAct=Funciones.obtieneHora(c) ;
+                            Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
+                                    + "Estimad@ " + nomApe + "<br>su salida no fue registrada,"
+                                    + "<br>debe esperar como mínimo 30 minutos,"
+                                    + "<br>su último ingreso lo hizo a las<b><center>" + tipoAsis
+                                    + " ahora son las: " + horaAct
+                                    + "</b></center>han pasado "+Funciones.restarHoras(tipoAsis,horaAct)/60+" minutos.</font></html>", "Registro asistencia", 10000);
+                            break;
                     }
+                    if (entSal) {
+                        if (reg) {
+                            Funciones.visualizaDialogo(this, "<html><font color='#0000FF' size=7>"
+                                    + "Estimad@ " + nomApe + "<br>su " + tipoAsis + " fue registrada a las:<br><b><center>"
+                                    + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 7000);
+                        } else {
+                            Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
+                                    + "Estimad@ " + nomApe + "<br>su " + tipoAsis + " no fue registrada a las:<br><b><center>"
+                                    + Funciones.obtieneHora(c) + "</b></center></font></html>", "Registro asistencia", 5000);
+
+                        }
+                    }
+
                 } else {
                     Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
                             + "Estimad@ verifique su número de cédula " + cedula + " <br>no se encuentra resgistrad@, intento registrar a las:<br><b><center>"
