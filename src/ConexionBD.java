@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class ConexionBD {
 
     public static Connection getConecion() {
-        Connection c=null;
+
         Configuraciones cf = new Configuraciones();
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -29,12 +29,14 @@ public class ConexionBD {
                 System.exit(0);
             }
             String url = "jdbc:mysql://" + host + "/" + base;
-            c = DriverManager.getConnection(url, usuarioBd, claveBd);
+            return DriverManager.getConnection(url, usuarioBd, claveBd);
+
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex);
             JOptionPane.showMessageDialog(null, "Verifique la conexión a servidor de base de datos.");
             System.exit(0);
+            return null;
         }
-        return c;
+
     }
 }

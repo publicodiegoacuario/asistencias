@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -168,5 +165,61 @@ public class Funciones {
         } catch (ParseException ex) {
             return -1;
         }
+    }
+/**
+ * 
+ * @param c Conexion con mysql
+ * @param cargo Texto para la tabla docentes
+ * @param dni Cedula o pasaporte de la persona
+ * @param nom Nombres de la persona
+ * @param ape Apellidos de la persona
+ * @param cel Celular de la persona
+ * @param correo Correo de la persona
+ * @param fecNac Fecha de nacimiento de persona
+ * @return teue o false
+ */
+    public Boolean registrarDocente(
+            Connection c, String cargo,
+            String dni, String nom,
+            String ape, String cel,
+            String correo, String fecNac
+    ) {
+        try {
+            Statement s = c.createStatement();
+            s.executeUpdate("INSERT INTO personas"
+                    + " (dni, nombres, apellidos, telefono, correo, fecha_nacimiento) "
+                    + "VALUES ('" + dni + "', '" + nom + "', '" + ape + "', '" + cel + "', '" + correo + "', '" + fecNac + "');");
+            String sql = "SELECT * FROM personas WHERE dni='" + dni + "'";
+            ResultSet rs = s.executeQuery(sql);
+            rs.next();
+            Integer id = rs.getInt("id_persona");
+            s.executeUpdate("INSERT INTO docentes (id_persona, cargo) "
+                    + "VALUES ('" + id + "', '" + cargo + "');");
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            
+            return false;
+        }
+    }
+/**
+ * 
+ * @param c Conexion con mysql
+ * @param us usuario de la tabla usuarios
+ * @param cl clave de la tabla usuarios
+ * @return true o false 
+ */
+    public Boolean login(Connection c, String us, String cl) {
+        try {
+            String sql = "SELECT * FROM usuarios WHERE usuario='" + us + "' AND clave='" + cl + "'";
+            Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery(sql);
+            rs.next();
+            return rs.getInt("id_rol") == 1;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            return false;
+        }
+
     }
 }

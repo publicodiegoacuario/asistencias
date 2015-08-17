@@ -85,6 +85,7 @@ public class RegistroAsistencias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+
         if (!Character.isDigit(evt.getKeyChar()) && !Character.isISOControl(evt.getKeyChar())) {
             Toolkit.getDefaultToolkit().beep();
             evt.consume();
@@ -100,8 +101,13 @@ public class RegistroAsistencias extends javax.swing.JFrame {
             }
             System.exit(0);
         }
-        if (ced.length() == 9||ced.length() == 10) {
-            String cedula = FuncionesCedula.corrigeCedulaNumerica(ced.substring(0,9));
+        //Cuando presione F2 de acceso a Login
+        if (evt.getKeyCode() == 113 && ced.isEmpty()) {
+            dispose();
+            new Login(ConexionBD.getConecion()).setVisible(true);
+        }
+        if (ced.length() == 9 || ced.length() == 10) {
+            String cedula = FuncionesCedula.corrigeCedulaNumerica(ced.substring(0, 9));
             if (cedula != null) {
                 String datos[] = Funciones.existeDocente(c, cedula).split(",");
                 if (datos.length > 1) {
@@ -120,13 +126,13 @@ public class RegistroAsistencias extends javax.swing.JFrame {
                             entSal = true;
                             break;
                         default:
-                            String horaAct=Funciones.obtieneHora(c) ;
+                            String horaAct = Funciones.obtieneHora(c);
                             Funciones.visualizaDialogo(this, "<html><font color='#FF0000' size=7>"
                                     + "Estimad@ " + nomApe + "<br>su salida no fue registrada,"
                                     + "<br>debe esperar como mínimo 30 minutos,"
                                     + "<br>su último ingreso lo hizo a las<b><center>" + tipoAsis
                                     + " ahora son las: " + horaAct
-                                    + "</b></center>han pasado "+Funciones.restarHoras(tipoAsis,horaAct)/60+" minutos.</font></html>", "Registro asistencia", 10000);
+                                    + "</b></center>han pasado " + Funciones.restarHoras(tipoAsis, horaAct) / 60 + " minutos.</font></html>", "Registro asistencia", 10000);
                             break;
                     }
                     if (entSal) {
